@@ -15,23 +15,25 @@ export const glue = <T extends Recipient & Record<string, unknown>>(
 		if (replies === undefined) {
 			return;
 		}
-        for (const reply of replies.split("\n")) {
-            if (reply === "") {
-                continue;
-            }
-            const msg = JSON.parse(reply);
-            //console.log(msg);
-            if (msg.recipient === "main") {
-                cb(msg);
-                continue;
-            }
-            const rcv = map.get(msg.recipient);
-            if (rcv === undefined) {
-                continue;
-            }
+		for (const reply of replies.split("\n")) {
+			if (reply === "") {
+				continue;
+			}
+			const msg = JSON.parse(reply);
+			//console.log(msg);
+			if (msg.recipient === "main") {
+				cb(msg);
+				continue;
+			}
+			const rcv = map.get(msg.recipient);
+			if (rcv === undefined) {
+				continue;
+			}
 
-            await rcv.ask(JSON.stringify(msg)).then(send).catch(() => map.set(msg.recipient, undefined));
-        }
+			await rcv.ask(JSON.stringify(msg)).then(send).catch(() =>
+				map.set(msg.recipient, undefined)
+			);
+		}
 	};
 
 	inps.forEach(async ([_, server]) => {

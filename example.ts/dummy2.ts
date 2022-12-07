@@ -10,7 +10,7 @@ server((_, send) => {
 		send({ n: i, recipient: "dummy" });
 	}
 })
-.route(isA(DummyMsg))((m, send) =>
-	send({ data: `Result was ${m.result}`, recipient: "main" })
-)
-.run()
+	.route(isA(DummyMsg))((m, send) =>
+		send({ data: `Result was ${m.result}`, recipient: "main" })
+	)
+	.run();

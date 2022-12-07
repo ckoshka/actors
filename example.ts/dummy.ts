@@ -6,5 +6,7 @@ const Msg = z.object({
 });
 
 server()
-	.route(isA(Msg))((m, send) => send({ result: m.n + 1, recipient: "dummy2" }))
-    .run()
+	.route(isA(Msg))((m, send) =>
+		send({ result: m.n + 1, recipient: "dummy2" })
+	)
+	.run();

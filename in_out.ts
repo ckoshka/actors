@@ -1,4 +1,3 @@
-
 // todo: multiple paths
 
 import { readerFromStreamReader, readLines, z } from "./deps.ts";
@@ -22,18 +21,20 @@ export const server = (
 	onReady: (
 		data: { ready: true; actorNames: string[] },
 		send: (a0: unknown) => void,
-	) => unknown = (_, send) => { send("hi") },
+	) => unknown = (_, send) => {
+		send("hi");
+	},
 	// deno-lint-ignore no-explicit-any
 	paths: Path<any>[] = [],
 ) => {
 	return {
-		route: <T>(isTypeFn: Path<T>[0]) =>
-			(handlerFn: Path<T>[1]) =>
-				server(onReady, [...paths, [isTypeFn, handlerFn]]),
+		route: <T>(isTypeFn: Path<T>[0]) => (handlerFn: Path<T>[1]) =>
+			server(onReady, [...paths, [isTypeFn, handlerFn]]),
 		run: async () => {
 			paths = [[isA(ReadyMsg), onReady], ...paths];
 
-			outerloop: for await (
+			outerloop:
+			for await (
 				const line of readLines(
 					readerFromStreamReader(Deno.stdin.readable.getReader()),
 				)
@@ -48,10 +49,14 @@ export const server = (
 								Deno.exit();
 							}
 						});
-                        continue outerloop;
+						continue outerloop;
 					}
 				}
-                console.error(`None of the paths for this message matched:`, line, msg);
+				console.error(
+					`None of the paths for this message matched:`,
+					line,
+					msg,
+				);
 			}
 		},
 	};

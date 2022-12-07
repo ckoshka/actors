@@ -1,4 +1,4 @@
 {
-    "dummy": "deno run -A ./dummy.ts",
-    "dummy2": "deno run -A ./dummy2.ts"
+	"dummy": "deno run -A ./dummy.ts",
+	"dummy2": "deno run -A ./dummy2.ts"
 }
